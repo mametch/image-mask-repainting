@@ -3,6 +3,7 @@ import torch
 import torchvision
 from PIL import Image
 from torchvision import transforms
+import numpy as np
 
 
 class InferenceSegm:
@@ -13,6 +14,7 @@ class InferenceSegm:
         self.model.eval()
         self.preprocess = transforms.Compose(
             [
+                transforms.ToPILImage(),
                 transforms.Resize(520),
                 transforms.ToTensor(),
                 transforms.Normalize(
@@ -34,13 +36,14 @@ class InferenceSegm:
             output = self.model(input_batch)["out"][0]
 
         output_predictions = output.argmax(0)
-        human_mask = (output_predictions == self.human_index).float()
+        human_mask = (output_predictions == self.human_index).int()
 
-        return human_mask.cpu().numpy()
+        return human_mask.cpu().numpy().astype(np.uint8)
 
 
 if __name__ == "__main__":
     input_img = Image.open("test_img/2024-09-24_20-19-02_0.png")
+    print(type(input_img))
     infSeg = InferenceSegm()
     mask = infSeg.inference(input_img)
 

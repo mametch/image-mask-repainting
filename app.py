@@ -2,7 +2,6 @@ import customtkinter
 
 from image_peeling.canvas_frame import CanvasFrame
 from image_peeling.config_frame import ConfigFrame
-from image_peeling.img_file_manager import ImgFileManager
 from image_peeling.json_util import JsonUtil
 from image_peeling.peeler import Peeler
 
@@ -19,11 +18,10 @@ class App(customtkinter.CTk):
 
         self.jsonUtil = JsonUtil("config.json")
         self.peeler = Peeler()
-        self.imgFileManager = ImgFileManager()
 
         self.fonts = (FONT_TYPE, 15)
         self.geometry("1300x1000")
-        self.title("Image Peeling")
+        self.title("Image Mask Repainting")
         self.setup_form()
 
         self.load_form_defaults()
