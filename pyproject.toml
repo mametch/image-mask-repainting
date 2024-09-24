@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "image-mask-repainting"
+version = "0.1.0"
+description = ""
+authors = ["mametch <18fmr41@ms.dendai.ac.jp>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+opencv-python = "^4.10.0.84"
+customtkinter = "^5.2.2"
+black = "^24.8.0"
+isort = "^5.13.2"
+pillow = "^10.4.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
