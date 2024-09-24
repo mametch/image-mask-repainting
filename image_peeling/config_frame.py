@@ -28,7 +28,7 @@ class ConfigFrame(customtkinter.CTkFrame):
 
         self.load_button = customtkinter.CTkButton(
             master=self,
-            text="Load images",
+            text="Load image",
             command=self.load_button_func,
             font=self.fonts,
         )
@@ -163,6 +163,15 @@ class ConfigFrame(customtkinter.CTkFrame):
             row=13, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
 
+        # ----- save button -----
+        self.save_button = customtkinter.CTkButton(
+            master=self,
+            text="Save image",
+            command=self.save_img_func,
+            font=self.fonts,
+        )
+        self.save_button.grid(row=14, column=1, padx=10, pady=(50, 10), sticky="ew")
+
     def load_form_defaults(self):
         self.img_path_field.insert(0, self.master.jsonUtil.config["latest_img_path"])
         self.brush_radius_slider.set(self.master.peeler.brush_radius)
@@ -255,5 +264,8 @@ class ConfigFrame(customtkinter.CTkFrame):
             self.gamma_label.configure(text=new_label)
             self.master.peeler.gamma = value
             self.master.peeler.adjust_gamma()
+
+    def save_img_func(self):
+        self.master.peeler.save_img()
 
     # ----- common function -----

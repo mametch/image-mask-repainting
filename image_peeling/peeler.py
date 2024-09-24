@@ -1,3 +1,5 @@
+import os
+
 import cv2
 import numpy as np
 
@@ -12,6 +14,7 @@ class Peeler:
         self.color_a = 128
         self.img_size = 1000
 
+        self.img_path = ""
         self.img_org = None
         self.img = None
         self.mask = None
@@ -21,6 +24,7 @@ class Peeler:
         self.infer = InferenceSegm()
 
     def load_img(self, img_path: str):
+        self.img_path = img_path
         img_np = np.fromfile(img_path, np.uint8)
         self.img_org = cv2.imdecode(img_np, cv2.IMREAD_COLOR)
 
@@ -75,3 +79,34 @@ class Peeler:
         blended_img = alpha * simple_img + (1 - alpha) * img
         blended_img = blended_img.astype(np.uint8)
         return blended_img
+
+    def alpha_blend_org_size(self):
+        height, width, _ = self.img_org.shape
+        mask = cv2.resize(self.mask, (width, height))
+
+        alpha = mask.astype(float) * (self.color_a / 255)
+        alpha = cv2.merge([alpha, alpha, alpha])
+
+        img = self.img_org.astype(float)
+
+        simple_img = np.zeros((height, width, 3))
+        simple_img += [self.color_b, self.color_g, self.color_r][::-1]
+
+        blended_img = alpha * simple_img + (1 - alpha) * img
+        blended_img = blended_img.astype(np.uint8)
+        return blended_img
+
+    def save_img(self, save_mask: bool = True):
+        blended_img = self.alpha_blend_org_size()
+        root, ext = os.path.splitext(self.img_path)
+        save_path = root + "_blend" + ext
+        cv2.imwrite(save_path, blended_img)
+
+        if not save_mask:
+            return
+
+        height, width, _ = self.img_org.shape
+        mask = cv2.resize(self.mask, (width, height))
+        mask = mask * 255
+        save_path = root + "_mask" + ext
+        cv2.imwrite(save_path, mask)
