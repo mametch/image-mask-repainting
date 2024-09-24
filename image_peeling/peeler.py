@@ -83,5 +83,7 @@ class Peeler:
     def adjust_gamma(self):
         self.back_img = self.back_img_org.copy()
         invGamma = 1.0 / self.gamma
-        table = np.array([((i / 255.0) ** invGamma) * 255 for i in np.arange(0, 256)]).astype("uint8")
+        table = np.array(
+            [((i / 255.0) ** invGamma) * 255 for i in np.arange(0, 256)]
+        ).astype("uint8")
         self.back_img = cv2.LUT(self.back_img, table)
