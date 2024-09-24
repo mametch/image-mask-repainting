@@ -5,8 +5,10 @@ import numpy as np
 
 from image_peeling.inference_sgm import InferenceSegm
 
+
 class Peeler:
     def __init__(self) -> None:
+        self.brush_mode = "Brush"
         self.brush_radius = 50
         self.color_r = 255
         self.color_g = 255
@@ -58,11 +60,18 @@ class Peeler:
         return cv2.cvtColor(blended_img, cv2.COLOR_BGR2RGB)
 
     def draw(self, x: int, y: int):
+        if self.brush_mode == "Brush":
+            brush_color = 1
+        elif self.brush_mode == "Erase":
+            brush_color = 0
+        else:
+            brush_color = 1
+
         cv2.circle(
             self.mask,
             center=(x, y),
             radius=self.brush_radius,
-            color=1,
+            color=brush_color,
             thickness=-1,
         )
 

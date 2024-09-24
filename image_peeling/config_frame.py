@@ -35,13 +35,20 @@ class ConfigFrame(customtkinter.CTkFrame):
         self.load_button.grid(row=1, column=1, padx=10, pady=(0, 10), sticky="ew")
 
         # ----- brush configs -----
+        self.switch_brush_mode = customtkinter.CTkSegmentedButton(
+            self, values=["Brush", "Erase"], command=self.switch_brush_mode_event
+        )
+        self.switch_brush_mode.grid(
+            row=2, column=1, padx=10, pady=(50, 10), sticky="ew"
+        )
+
         self.brush_radius_label = customtkinter.CTkLabel(
             self,
             text=f"Brush size {self.master.peeler.brush_radius}",
             font=(FONT_TYPE, 13),
         )
         self.brush_radius_label.grid(
-            row=2, column=0, padx=10, pady=(50, 10), sticky="ew", columnspan=3
+            row=3, column=0, padx=10, pady=(10, 10), sticky="ew", columnspan=3
         )
         self.brush_radius_slider = customtkinter.CTkSlider(
             master=self,
@@ -53,7 +60,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.brush_radius_slider_event,
         )
         self.brush_radius_slider.grid(
-            row=3, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=4, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
 
         # ----- mask configs -----
@@ -63,7 +70,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.color_r_label.grid(
-            row=4, column=0, padx=10, pady=(50, 10), sticky="ew", columnspan=3
+            row=5, column=0, padx=10, pady=(50, 10), sticky="ew", columnspan=3
         )
         self.color_r_slider = customtkinter.CTkSlider(
             master=self,
@@ -75,7 +82,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.color_r_slider_event,
         )
         self.color_r_slider.grid(
-            row=5, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=6, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
 
         self.color_g_label = customtkinter.CTkLabel(
@@ -84,7 +91,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.color_g_label.grid(
-            row=6, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=7, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
         self.color_g_slider = customtkinter.CTkSlider(
             master=self,
@@ -96,7 +103,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.color_g_slider_event,
         )
         self.color_g_slider.grid(
-            row=7, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=8, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
 
         self.color_b_label = customtkinter.CTkLabel(
@@ -105,7 +112,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.color_b_label.grid(
-            row=8, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=9, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
         self.color_b_slider = customtkinter.CTkSlider(
             master=self,
@@ -117,7 +124,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.color_b_slider_event,
         )
         self.color_b_slider.grid(
-            row=9, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=10, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
 
         self.color_a_label = customtkinter.CTkLabel(
@@ -126,7 +133,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.color_a_label.grid(
-            row=10, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=11, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
         self.color_a_slider = customtkinter.CTkSlider(
             master=self,
@@ -138,7 +145,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.color_a_slider_event,
         )
         self.color_a_slider.grid(
-            row=11, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=12, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
 
         # ----- whole image config -----
@@ -148,7 +155,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.img_size_label.grid(
-            row=12, column=0, padx=10, pady=(50, 10), sticky="ew", columnspan=3
+            row=13, column=0, padx=10, pady=(50, 10), sticky="ew", columnspan=3
         )
         self.img_size_slider = customtkinter.CTkSlider(
             master=self,
@@ -160,7 +167,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.img_max_slider_event,
         )
         self.img_size_slider.grid(
-            row=13, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=14, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
 
         # ----- save button -----
@@ -170,10 +177,11 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.save_img_func,
             font=self.fonts,
         )
-        self.save_button.grid(row=14, column=1, padx=10, pady=(50, 10), sticky="ew")
+        self.save_button.grid(row=15, column=1, padx=10, pady=(50, 10), sticky="ew")
 
     def load_form_defaults(self):
         self.img_path_field.insert(0, self.master.jsonUtil.config["latest_img_path"])
+        self.switch_brush_mode.set("Brush")
         self.brush_radius_slider.set(self.master.peeler.brush_radius)
         self.color_r_slider.set(self.master.peeler.color_r)
         self.color_g_slider.set(self.master.peeler.color_g)
@@ -192,6 +200,9 @@ class ConfigFrame(customtkinter.CTkFrame):
         self.master.peeler.load_img(img_path)
         self.master.jsonUtil.config["latest_img_path"] = img_path
         self.master.jsonUtil.save_json()
+
+    def switch_brush_mode_event(self, value):
+        self.master.peeler.brush_mode = value
 
     def brush_radius_slider_event(self, value):
         value = round(value)

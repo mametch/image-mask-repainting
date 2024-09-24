@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
+import numpy as np
 import torch
 import torchvision
 from PIL import Image
 from torchvision import transforms
-import numpy as np
 
 
 class InferenceSegm:
