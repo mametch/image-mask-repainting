@@ -12,10 +12,14 @@ class ConfigFrame(customtkinter.CTkFrame):
         self.fonts = (FONT_TYPE, 15)
         self.header_name = "ConfigFrame"
 
-        self.setup_form()
+        self.row_index = 0
+        self.setup_form_file()
+        self.setup_form_brush()
+        self.setup_form_mask()
+        self.setup_form_whole_img()
+        self.setup_form_save()
 
-    def setup_form(self):
-        # ----- file configs -----
+    def setup_form_file(self, start_row=0):
         self.img_path_field = customtkinter.CTkEntry(
             master=self,
             placeholder_text="dir path",
@@ -23,7 +27,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=self.fonts,
         )
         self.img_path_field.grid(
-            row=0, column=0, padx=10, pady=(10, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(10, 10), sticky="ew", columnspan=3
         )
 
         self.load_button = customtkinter.CTkButton(
@@ -32,14 +36,14 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.load_button_func,
             font=self.fonts,
         )
-        self.load_button.grid(row=1, column=1, padx=10, pady=(0, 10), sticky="ew")
+        self.load_button.grid(row=self.add_row_index(), column=1, padx=10, pady=(0, 10), sticky="ew")
 
-        # ----- brush configs -----
+    def setup_form_brush(self):
         self.switch_brush_mode = customtkinter.CTkSegmentedButton(
             self, values=["Brush", "Erase"], command=self.switch_brush_mode_event
         )
         self.switch_brush_mode.grid(
-            row=2, column=1, padx=10, pady=(50, 10), sticky="ew"
+            row=self.add_row_index(), column=1, padx=10, pady=(50, 10), sticky="ew"
         )
 
         self.brush_radius_label = customtkinter.CTkLabel(
@@ -48,7 +52,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.brush_radius_label.grid(
-            row=3, column=0, padx=10, pady=(10, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(10, 10), sticky="ew", columnspan=3
         )
         self.brush_radius_slider = customtkinter.CTkSlider(
             master=self,
@@ -60,17 +64,17 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.brush_radius_slider_event,
         )
         self.brush_radius_slider.grid(
-            row=4, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
 
-        # ----- mask configs -----
+    def setup_form_mask(self):
         self.color_r_label = customtkinter.CTkLabel(
             self,
             text=f"Color R {self.master.peeler.color_r}",
             font=(FONT_TYPE, 13),
         )
         self.color_r_label.grid(
-            row=5, column=0, padx=10, pady=(50, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(50, 10), sticky="ew", columnspan=3
         )
         self.color_r_slider = customtkinter.CTkSlider(
             master=self,
@@ -82,7 +86,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.color_r_slider_event,
         )
         self.color_r_slider.grid(
-            row=6, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
 
         self.color_g_label = customtkinter.CTkLabel(
@@ -91,7 +95,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.color_g_label.grid(
-            row=7, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
         self.color_g_slider = customtkinter.CTkSlider(
             master=self,
@@ -103,7 +107,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.color_g_slider_event,
         )
         self.color_g_slider.grid(
-            row=8, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
 
         self.color_b_label = customtkinter.CTkLabel(
@@ -112,7 +116,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.color_b_label.grid(
-            row=9, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
         self.color_b_slider = customtkinter.CTkSlider(
             master=self,
@@ -124,7 +128,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.color_b_slider_event,
         )
         self.color_b_slider.grid(
-            row=10, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
 
         self.color_a_label = customtkinter.CTkLabel(
@@ -133,7 +137,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.color_a_label.grid(
-            row=11, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
         self.color_a_slider = customtkinter.CTkSlider(
             master=self,
@@ -145,17 +149,17 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.color_a_slider_event,
         )
         self.color_a_slider.grid(
-            row=12, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
 
-        # ----- whole image config -----
+    def setup_form_whole_img(self):
         self.img_size_label = customtkinter.CTkLabel(
             self,
             text=f"Image size {self.master.peeler.img_size}",
             font=(FONT_TYPE, 13),
         )
         self.img_size_label.grid(
-            row=13, column=0, padx=10, pady=(50, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(50, 10), sticky="ew", columnspan=3
         )
         self.img_size_slider = customtkinter.CTkSlider(
             master=self,
@@ -167,17 +171,17 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.img_max_slider_event,
         )
         self.img_size_slider.grid(
-            row=14, column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
 
-        # ----- save button -----
+    def setup_form_save(self):
         self.save_button = customtkinter.CTkButton(
             master=self,
             text="Save image",
             command=self.save_img_func,
             font=self.fonts,
         )
-        self.save_button.grid(row=15, column=1, padx=10, pady=(50, 10), sticky="ew")
+        self.save_button.grid(row=self.add_row_index(), column=1, padx=10, pady=(50, 10), sticky="ew")
 
     def load_form_defaults(self):
         self.img_path_field.insert(0, self.master.jsonUtil.config["latest_img_path"])
@@ -266,7 +270,6 @@ class ConfigFrame(customtkinter.CTkFrame):
         if old_label != new_label:
             self.img_size_label.configure(text=new_label)
             self.master.peeler.img_size = value
-            self.load_imgs()
 
     def gamma_slider_event(self, value):
         old_label = self.gamma_label.cget("text")
@@ -280,3 +283,6 @@ class ConfigFrame(customtkinter.CTkFrame):
         self.master.peeler.save_img()
 
     # ----- common function -----
+    def add_row_index(self):
+        self.row_index += 1
+        return self.row_index

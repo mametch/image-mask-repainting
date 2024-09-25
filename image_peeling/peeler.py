@@ -83,7 +83,7 @@ class Peeler:
         height, width, _ = self.img.shape
 
         simple_img = np.zeros((height, width, 3))
-        simple_img += [self.color_b, self.color_g, self.color_r][::-1]
+        simple_img += [self.color_r, self.color_g, self.color_b][::-1]
 
         blended_img = alpha * simple_img + (1 - alpha) * img
         blended_img = blended_img.astype(np.uint8)
@@ -99,7 +99,7 @@ class Peeler:
         img = self.img_org.astype(float)
 
         simple_img = np.zeros((height, width, 3))
-        simple_img += [self.color_b, self.color_g, self.color_r][::-1]
+        simple_img += [self.color_r, self.color_g, self.color_b][::-1]
 
         blended_img = alpha * simple_img + (1 - alpha) * img
         blended_img = blended_img.astype(np.uint8)
