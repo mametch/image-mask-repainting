@@ -52,7 +52,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.brush_radius_label.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(10, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 0), sticky="ew", columnspan=3
         )
         self.brush_radius_slider = customtkinter.CTkSlider(
             master=self,
@@ -74,7 +74,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.color_r_label.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(50, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(50, 0), sticky="ew", columnspan=3
         )
         self.color_r_slider = customtkinter.CTkSlider(
             master=self,
@@ -95,7 +95,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.color_g_label.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 0), sticky="ew", columnspan=3
         )
         self.color_g_slider = customtkinter.CTkSlider(
             master=self,
@@ -116,7 +116,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.color_b_label.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 0), sticky="ew", columnspan=3
         )
         self.color_b_slider = customtkinter.CTkSlider(
             master=self,
@@ -137,7 +137,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.color_a_label.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 0), sticky="ew", columnspan=3
         )
         self.color_a_slider = customtkinter.CTkSlider(
             master=self,
@@ -159,7 +159,7 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.img_size_label.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(50, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(), column=0, padx=10, pady=(50, 0), sticky="ew", columnspan=3
         )
         self.img_size_slider = customtkinter.CTkSlider(
             master=self,
