@@ -9,12 +9,14 @@ from image_peeling.inference_sgm import InferenceSegm
 class Peeler:
     def __init__(self) -> None:
         self.brush_mode = "Brush"
-        self.brush_radius = 50
-        self.color_r = 255
-        self.color_g = 255
-        self.color_b = 255
-        self.color_a = 128
-        self.img_size = 1000
+        self.brush_radius = 30
+        self.color_r = 0
+        self.color_g = 0
+        self.color_b = 0
+        self.color_a = 170
+        self.ed_strength = 7
+        self.blur_kernel_size = 11
+        self.img_size = 1700
 
         self.img_path = ""
         self.img_org = None
@@ -35,6 +37,12 @@ class Peeler:
 
         self.resize_img()
         self.updatable = True
+
+    def load_mask(self, mask_path: str):
+        mask_np = np.fromfile(mask_path, np.uint8)
+        self.mask = cv2.imdecode(mask_np, cv2.IMREAD_GRAYSCALE)
+        self.mask = (self.mask / 255).astype(np.uint8)
+        self.resize_img()
 
     def resize_img(self):
         self.img = self.img_org.copy()
@@ -75,8 +83,38 @@ class Peeler:
             thickness=-1,
         )
 
+    def erode_mask(self):
+        kernel = np.ones((self.ed_strength, self.ed_strength), np.uint8)
+        self.mask = cv2.erode(self.mask, kernel)
+
+    def dilate_mask(self):
+        kernel = np.ones((self.ed_strength, self.ed_strength), np.uint8)
+        self.mask = cv2.dilate(self.mask, kernel)
+
+    def save_img(self):
+        blended_img = self.alpha_blend_org_size()
+        root, ext = os.path.splitext(self.img_path)
+        save_path = root + "_blend" + ext
+        cv2.imwrite(save_path, blended_img)
+
+    def save_mask(self, is_ed: bool = False):
+        height, width, _ = self.img_org.shape
+        mask = cv2.resize(self.mask, (width, height))
+        mask = mask * 255
+
+        root, ext = os.path.splitext(self.img_path)
+        if is_ed > 0:
+            kernel = np.ones((self.ed_strength, self.ed_strength), np.uint8)
+            d_mask = cv2.dilate(mask, kernel, self.ed_strength)
+            d_save_path = root + f"_mask{self.ed_strength}" + ext
+            cv2.imwrite(d_save_path, d_mask)
+        else:
+            save_path = root + "_mask" + ext
+            cv2.imwrite(save_path, mask)
+
     def alpha_blend(self):
-        alpha = self.mask.astype(float) * (self.color_a / 255)
+        mask = self.get_antialiasing_mask()
+        alpha = mask.astype(float) * (self.color_a / 255)
         alpha = cv2.merge([alpha, alpha, alpha])
 
         img = self.img.astype(float)
@@ -91,7 +129,8 @@ class Peeler:
 
     def alpha_blend_org_size(self):
         height, width, _ = self.img_org.shape
-        mask = cv2.resize(self.mask, (width, height))
+        mask = self.get_antialiasing_mask()
+        mask = cv2.resize(mask, (width, height))
 
         alpha = mask.astype(float) * (self.color_a / 255)
         alpha = cv2.merge([alpha, alpha, alpha])
@@ -105,17 +144,10 @@ class Peeler:
         blended_img = blended_img.astype(np.uint8)
         return blended_img
 
-    def save_img(self, save_mask: bool = True):
-        blended_img = self.alpha_blend_org_size()
-        root, ext = os.path.splitext(self.img_path)
-        save_path = root + "_blend" + ext
-        cv2.imwrite(save_path, blended_img)
+    def get_antialiasing_mask(self):
+        if self.blur_kernel_size <= 1:
+            return self.mask
 
-        if not save_mask:
-            return
-
-        height, width, _ = self.img_org.shape
-        mask = cv2.resize(self.mask, (width, height))
-        mask = mask * 255
-        save_path = root + "_mask" + ext
-        cv2.imwrite(save_path, mask)
+        mask = self.mask * 255
+        mask = cv2.GaussianBlur(mask, (self.blur_kernel_size, self.blur_kernel_size), 0)
+        return mask / 255

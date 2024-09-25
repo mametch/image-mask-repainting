@@ -30,13 +30,22 @@ class ConfigFrame(customtkinter.CTkFrame):
             row=self.add_row_index(), column=0, padx=10, pady=(10, 10), sticky="ew", columnspan=3
         )
 
+        row_index = self.add_row_index()
         self.load_button = customtkinter.CTkButton(
             master=self,
             text="Load image",
             command=self.load_button_func,
             font=self.fonts,
         )
-        self.load_button.grid(row=self.add_row_index(), column=1, padx=10, pady=(0, 10), sticky="ew")
+        self.load_button.grid(row=row_index, column=0, padx=10, pady=(0, 10), sticky="ew")
+
+        self.load_mask_button = customtkinter.CTkButton(
+            master=self,
+            text="Load mask",
+            command=self.load_mask_button_func,
+            font=self.fonts,
+        )
+        self.load_mask_button.grid(row=row_index, column=2, padx=10, pady=(0, 10), sticky="ew")
 
     def setup_form_brush(self):
         self.switch_brush_mode = customtkinter.CTkSegmentedButton(
@@ -152,6 +161,65 @@ class ConfigFrame(customtkinter.CTkFrame):
             row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
 
+        row_index = self.add_row_index()
+        self.dilate_button = customtkinter.CTkButton(
+            master=self,
+            text="Dilate",
+            command=self.dilate_button_func,
+            font=self.fonts,
+        )
+        self.dilate_button.grid(row=row_index, column=0, padx=10, pady=(0, 10), sticky="ew")
+
+        self.erode_button = customtkinter.CTkButton(
+            master=self,
+            text="Erode",
+            command=self.erode_button_func,
+            font=self.fonts,
+        )
+        self.erode_button.grid(row=row_index, column=2, padx=10, pady=(0, 10), sticky="ew")
+
+        self.ed_strength_label = customtkinter.CTkLabel(
+            self,
+            text=f"ED Strength {self.master.peeler.ed_strength}",
+            font=(FONT_TYPE, 13),
+        )
+        self.ed_strength_label.grid(
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 0), sticky="ew", columnspan=3
+        )
+        self.ed_strength_slider = customtkinter.CTkSlider(
+            master=self,
+            from_=3,
+            to=21,
+            number_of_steps=9,
+            hover=False,
+            width=300,
+            command=self.ed_strength_slider_event,
+        )
+        self.ed_strength_slider.grid(
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+        )
+
+        self.blur_kernel_size_label = customtkinter.CTkLabel(
+            self,
+            text=f"Blur kernel size {self.master.peeler.blur_kernel_size}",
+            font=(FONT_TYPE, 13),
+        )
+        self.blur_kernel_size_label.grid(
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 0), sticky="ew", columnspan=3
+        )
+        self.blur_kernel_size_slider = customtkinter.CTkSlider(
+            master=self,
+            from_=1,
+            to=31,
+            number_of_steps=15,
+            hover=False,
+            width=300,
+            command=self.blur_kernel_size_slider_event,
+        )
+        self.blur_kernel_size_slider.grid(
+            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+        )
+
     def setup_form_whole_img(self):
         self.img_size_label = customtkinter.CTkLabel(
             self,
@@ -191,6 +259,8 @@ class ConfigFrame(customtkinter.CTkFrame):
         self.color_g_slider.set(self.master.peeler.color_g)
         self.color_b_slider.set(self.master.peeler.color_b)
         self.color_a_slider.set(self.master.peeler.color_a)
+        self.ed_strength_slider.set(self.master.peeler.ed_strength)
+        self.blur_kernel_size_slider.set(self.master.peeler.blur_kernel_size)
         self.img_size_slider.set(self.master.peeler.img_size)
         self.load_button_func()
 
@@ -204,6 +274,16 @@ class ConfigFrame(customtkinter.CTkFrame):
         self.master.peeler.load_img(img_path)
         self.master.jsonUtil.config["latest_img_path"] = img_path
         self.master.jsonUtil.save_json()
+
+    def load_mask_button_func(self):
+        img_path = self.img_path_field.get()
+        root, ext = os.path.splitext(img_path)
+        mask_path = root + "_mask" + ext
+        if not os.path.isfile(mask_path):
+            print("img is not found.")
+            return
+
+        self.master.peeler.load_mask(mask_path)
 
     def switch_brush_mode_event(self, value):
         self.master.peeler.brush_mode = value
@@ -248,6 +328,28 @@ class ConfigFrame(customtkinter.CTkFrame):
             self.color_a_label.configure(text=new_label)
             self.master.peeler.color_a = value
 
+    def erode_button_func(self):
+        self.master.peeler.erode_mask()
+
+    def dilate_button_func(self):
+        self.master.peeler.dilate_mask()
+
+    def ed_strength_slider_event(self, value):
+        value = round(value)
+        old_label = self.ed_strength_label.cget("text")
+        new_label = f"ED Strength {value}"
+        if old_label != new_label:
+            self.ed_strength_label.configure(text=new_label)
+            self.master.peeler.ed_strength = value
+
+    def blur_kernel_size_slider_event(self, value):
+        value = round(value)
+        old_label = self.blur_kernel_size_label.cget("text")
+        new_label = f"Blur kernel size {value}"
+        if old_label != new_label:
+            self.blur_kernel_size_label.configure(text=new_label)
+            self.master.peeler.blur_kernel_size = value
+
     def brush_density_slider_event(self, value):
         value = round(value)
         old_label = self.brush_density_label.cget("text")
@@ -281,6 +383,8 @@ class ConfigFrame(customtkinter.CTkFrame):
 
     def save_img_func(self):
         self.master.peeler.save_img()
+        self.master.peeler.save_mask(False)
+        self.master.peeler.save_mask(True)
 
     # ----- common function -----
     def add_row_index(self):

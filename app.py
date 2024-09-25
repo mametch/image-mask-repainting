@@ -6,7 +6,7 @@ from image_peeling.json_util import JsonUtil
 from image_peeling.peeler import Peeler
 
 FONT_TYPE = "meiryo"
-AFTER_MS = 33
+AFTER_MS = 15
 
 
 class App(customtkinter.CTk):
@@ -20,7 +20,7 @@ class App(customtkinter.CTk):
         self.peeler = Peeler()
 
         self.fonts = (FONT_TYPE, 15)
-        self.geometry("1300x1000")
+        self.geometry("1500x1500")
         self.title("Image Mask Repainting")
         self.setup_form()
 
