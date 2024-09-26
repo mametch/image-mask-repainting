@@ -41,7 +41,7 @@ class Peeler:
     def load_mask(self, mask_path: str):
         mask_np = np.fromfile(mask_path, np.uint8)
         self.mask = cv2.imdecode(mask_np, cv2.IMREAD_GRAYSCALE)
-        self.mask = (self.mask / 255).astype(np.uint8)
+        _, self.mask = cv2.threshold(self.mask, 128, 1, cv2.THRESH_BINARY)
         self.resize_img()
 
     def resize_img(self):
