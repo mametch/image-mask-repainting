@@ -49,7 +49,7 @@ class ConfigFrame(customtkinter.CTkFrame):
 
     def setup_form_brush(self):
         self.switch_brush_mode = customtkinter.CTkSegmentedButton(
-            self, values=["Brush", "Erase"], command=self.switch_brush_mode_event
+            self, values=["Brush", "Erase", "Paint"], command=self.switch_brush_mode_event
         )
         self.switch_brush_mode.grid(
             row=self.add_row_index(), column=1, padx=10, pady=(50, 10), sticky="ew"

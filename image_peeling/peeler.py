@@ -22,6 +22,7 @@ class Peeler:
         self.img_org = None
         self.img = None
         self.mask = None
+        self.paint_mask = None
 
         self.updatable = False
 
@@ -34,6 +35,8 @@ class Peeler:
 
         img_org_rgb = cv2.cvtColor(self.img_org, cv2.COLOR_BGR2RGB)
         self.mask = self.infer.inference(img_org_rgb)
+
+        self.paint_mask = np.zeros(img_org_rgb.shape, np.uint8)
 
         self.resize_img()
         self.updatable = True
@@ -59,6 +62,7 @@ class Peeler:
 
         self.img = cv2.resize(self.img, (new_w, new_h))
         self.mask = cv2.resize(self.mask, (new_w, new_h))
+        self.paint_mask = cv2.resize(self.paint_mask, (new_w, new_h))
 
     def update_img(self):
         if not self.updatable:
@@ -68,6 +72,16 @@ class Peeler:
         return cv2.cvtColor(blended_img, cv2.COLOR_BGR2RGB)
 
     def draw(self, x: int, y: int):
+        if self.brush_mode == "Paint":
+            cv2.circle(
+                self.paint_mask,
+                center=(x, y),
+                radius=self.brush_radius,
+                color=(self.color_b, self.color_g, self.color_r),
+                thickness=-1,
+            )
+            return
+
         if self.brush_mode == "Brush":
             brush_color = 1
         elif self.brush_mode == "Erase":
@@ -120,10 +134,13 @@ class Peeler:
         img = self.img.astype(float)
         height, width, _ = self.img.shape
 
-        simple_img = np.zeros((height, width, 3))
-        simple_img += [self.color_r, self.color_g, self.color_b][::-1]
+        if self.brush_mode == "Paint":
+            target_img = self.paint_mask
+        else:
+            target_img = np.zeros((height, width, 3))
+            target_img += [self.color_r, self.color_g, self.color_b][::-1]
 
-        blended_img = alpha * simple_img + (1 - alpha) * img
+        blended_img = alpha * target_img + (1 - alpha) * img
         blended_img = blended_img.astype(np.uint8)
         return blended_img
 
@@ -137,10 +154,13 @@ class Peeler:
 
         img = self.img_org.astype(float)
 
-        simple_img = np.zeros((height, width, 3))
-        simple_img += [self.color_r, self.color_g, self.color_b][::-1]
+        if self.brush_mode == "Paint":
+            target_img = cv2.resize(self.paint_mask, (width, height))
+        else:
+            target_img = np.zeros((height, width, 3))
+            target_img += [self.color_r, self.color_g, self.color_b][::-1]
 
-        blended_img = alpha * simple_img + (1 - alpha) * img
+        blended_img = alpha * target_img + (1 - alpha) * img
         blended_img = blended_img.astype(np.uint8)
         return blended_img
 
