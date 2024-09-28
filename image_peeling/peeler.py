@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 
 from image_peeling.inference_sam2 import SAM2
+
 # from image_peeling.inference_sgm import InferenceSegm
 
 

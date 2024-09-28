@@ -1,6 +1,6 @@
-from ultralytics import SAM
-import numpy as np
 import cv2
+import numpy as np
+from ultralytics import SAM
 
 
 class SAM2:
@@ -9,11 +9,7 @@ class SAM2:
         # self.model.info()
 
     def inference(self, img, points):
-        results = self.model(
-            img,
-            points=points,
-            labels=[1]
-        )
+        results = self.model(img, points=points, labels=[1])
 
         mask = results[0].masks.data[0].cpu().numpy()
         mask = mask.astype(np.uint8)
@@ -27,8 +23,10 @@ class SAM2:
 if __name__ == "__main__":
     sam2 = SAM2()
 
-    img = cv2.imread("d:/Dropbox/explode/_stable_diffusion/diff/230821_k01c_18_BACK.png")
-    points=[[int(480 / 2), int(720 / 2)]]
+    img = cv2.imread(
+        "d:/Dropbox/explode/_stable_diffusion/diff/230821_k01c_18_BACK.png"
+    )
+    points = [[int(480 / 2), int(720 / 2)]]
     mask = sam2.inference(img, points)
     mask *= 255
 

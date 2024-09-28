@@ -27,7 +27,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=self.fonts,
         )
         self.img_path_field.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(10, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(10, 10),
+            sticky="ew",
+            columnspan=3,
         )
 
         row_index = self.add_row_index()
@@ -37,7 +42,9 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.load_button_func,
             font=self.fonts,
         )
-        self.load_button.grid(row=row_index, column=0, padx=10, pady=(0, 10), sticky="ew")
+        self.load_button.grid(
+            row=row_index, column=0, padx=10, pady=(0, 10), sticky="ew"
+        )
 
         self.load_mask_button = customtkinter.CTkButton(
             master=self,
@@ -45,11 +52,15 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.load_mask_button_func,
             font=self.fonts,
         )
-        self.load_mask_button.grid(row=row_index, column=2, padx=10, pady=(0, 10), sticky="ew")
+        self.load_mask_button.grid(
+            row=row_index, column=2, padx=10, pady=(0, 10), sticky="ew"
+        )
 
     def setup_form_brush(self):
         self.switch_brush_mode = customtkinter.CTkSegmentedButton(
-            self, values=["Brush", "Erase", "Paint"], command=self.switch_brush_mode_event
+            self,
+            values=["Brush", "Erase", "Paint"],
+            command=self.switch_brush_mode_event,
         )
         self.switch_brush_mode.grid(
             row=self.add_row_index(), column=1, padx=10, pady=(50, 10), sticky="ew"
@@ -61,7 +72,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.brush_radius_label.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 0), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(0, 0),
+            sticky="ew",
+            columnspan=3,
         )
         self.brush_radius_slider = customtkinter.CTkSlider(
             master=self,
@@ -73,7 +89,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.brush_radius_slider_event,
         )
         self.brush_radius_slider.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(0, 10),
+            sticky="ew",
+            columnspan=3,
         )
 
     def setup_form_mask(self):
@@ -83,7 +104,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.color_r_label.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(50, 0), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(50, 0),
+            sticky="ew",
+            columnspan=3,
         )
         self.color_r_slider = customtkinter.CTkSlider(
             master=self,
@@ -95,7 +121,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.color_r_slider_event,
         )
         self.color_r_slider.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(0, 10),
+            sticky="ew",
+            columnspan=3,
         )
 
         self.color_g_label = customtkinter.CTkLabel(
@@ -104,7 +135,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.color_g_label.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 0), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(0, 0),
+            sticky="ew",
+            columnspan=3,
         )
         self.color_g_slider = customtkinter.CTkSlider(
             master=self,
@@ -116,7 +152,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.color_g_slider_event,
         )
         self.color_g_slider.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(0, 10),
+            sticky="ew",
+            columnspan=3,
         )
 
         self.color_b_label = customtkinter.CTkLabel(
@@ -125,7 +166,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.color_b_label.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 0), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(0, 0),
+            sticky="ew",
+            columnspan=3,
         )
         self.color_b_slider = customtkinter.CTkSlider(
             master=self,
@@ -137,7 +183,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.color_b_slider_event,
         )
         self.color_b_slider.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(0, 10),
+            sticky="ew",
+            columnspan=3,
         )
 
         self.color_a_label = customtkinter.CTkLabel(
@@ -146,7 +197,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.color_a_label.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 0), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(0, 0),
+            sticky="ew",
+            columnspan=3,
         )
         self.color_a_slider = customtkinter.CTkSlider(
             master=self,
@@ -158,7 +214,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.color_a_slider_event,
         )
         self.color_a_slider.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(0, 10),
+            sticky="ew",
+            columnspan=3,
         )
 
         row_index = self.add_row_index()
@@ -168,7 +229,9 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.dilate_button_func,
             font=self.fonts,
         )
-        self.dilate_button.grid(row=row_index, column=0, padx=10, pady=(0, 10), sticky="ew")
+        self.dilate_button.grid(
+            row=row_index, column=0, padx=10, pady=(0, 10), sticky="ew"
+        )
 
         self.erode_button = customtkinter.CTkButton(
             master=self,
@@ -176,7 +239,9 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.erode_button_func,
             font=self.fonts,
         )
-        self.erode_button.grid(row=row_index, column=2, padx=10, pady=(0, 10), sticky="ew")
+        self.erode_button.grid(
+            row=row_index, column=2, padx=10, pady=(0, 10), sticky="ew"
+        )
 
         self.ed_strength_label = customtkinter.CTkLabel(
             self,
@@ -184,7 +249,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.ed_strength_label.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 0), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(0, 0),
+            sticky="ew",
+            columnspan=3,
         )
         self.ed_strength_slider = customtkinter.CTkSlider(
             master=self,
@@ -196,7 +266,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.ed_strength_slider_event,
         )
         self.ed_strength_slider.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(0, 10),
+            sticky="ew",
+            columnspan=3,
         )
 
         self.expand_mask_up_button = customtkinter.CTkButton(
@@ -205,7 +280,9 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.expand_mask_up_func,
             font=self.fonts,
         )
-        self.expand_mask_up_button.grid(row=self.add_row_index(), column=1, padx=10, pady=(0, 10), sticky="ew")
+        self.expand_mask_up_button.grid(
+            row=self.add_row_index(), column=1, padx=10, pady=(0, 10), sticky="ew"
+        )
 
         row_index = self.add_row_index()
         self.expand_mask_left_button = customtkinter.CTkButton(
@@ -214,14 +291,18 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.expand_mask_left_func,
             font=self.fonts,
         )
-        self.expand_mask_left_button.grid(row=row_index, column=0, padx=10, pady=(0, 10), sticky="ew")
+        self.expand_mask_left_button.grid(
+            row=row_index, column=0, padx=10, pady=(0, 10), sticky="ew"
+        )
 
         self.expand_mask_label = customtkinter.CTkLabel(
             self,
             text="Expand mask",
             font=(FONT_TYPE, 13),
         )
-        self.expand_mask_label.grid(row=row_index, column=1, padx=10, pady=(0, 0), sticky="ew", columnspan=3)
+        self.expand_mask_label.grid(
+            row=row_index, column=1, padx=10, pady=(0, 0), sticky="ew", columnspan=3
+        )
 
         self.expand_mask_right_button = customtkinter.CTkButton(
             master=self,
@@ -229,7 +310,9 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.expand_mask_right_func,
             font=self.fonts,
         )
-        self.expand_mask_right_button.grid(row=row_index, column=2, padx=10, pady=(0, 10), sticky="ew")
+        self.expand_mask_right_button.grid(
+            row=row_index, column=2, padx=10, pady=(0, 10), sticky="ew"
+        )
 
         self.expand_mask_down_button = customtkinter.CTkButton(
             master=self,
@@ -237,7 +320,9 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.expand_mask_down_func,
             font=self.fonts,
         )
-        self.expand_mask_down_button.grid(row=self.add_row_index(), column=1, padx=10, pady=(0, 10), sticky="ew")
+        self.expand_mask_down_button.grid(
+            row=self.add_row_index(), column=1, padx=10, pady=(0, 10), sticky="ew"
+        )
 
         self.blur_kernel_size_label = customtkinter.CTkLabel(
             self,
@@ -245,7 +330,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.blur_kernel_size_label.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 0), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(0, 0),
+            sticky="ew",
+            columnspan=3,
         )
         self.blur_kernel_size_slider = customtkinter.CTkSlider(
             master=self,
@@ -257,7 +347,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.blur_kernel_size_slider_event,
         )
         self.blur_kernel_size_slider.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(0, 10),
+            sticky="ew",
+            columnspan=3,
         )
 
     def setup_form_whole_img(self):
@@ -267,7 +362,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             font=(FONT_TYPE, 13),
         )
         self.img_size_label.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(50, 0), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(50, 0),
+            sticky="ew",
+            columnspan=3,
         )
         self.img_size_slider = customtkinter.CTkSlider(
             master=self,
@@ -279,7 +379,12 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.img_max_slider_event,
         )
         self.img_size_slider.grid(
-            row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
+            row=self.add_row_index(),
+            column=0,
+            padx=10,
+            pady=(0, 10),
+            sticky="ew",
+            columnspan=3,
         )
 
     def setup_form_save(self):
@@ -289,7 +394,9 @@ class ConfigFrame(customtkinter.CTkFrame):
             command=self.save_img_func,
             font=self.fonts,
         )
-        self.save_button.grid(row=self.add_row_index(), column=1, padx=10, pady=(50, 10), sticky="ew")
+        self.save_button.grid(
+            row=self.add_row_index(), column=1, padx=10, pady=(50, 10), sticky="ew"
+        )
 
     def load_form_defaults(self):
         self.img_path_field.insert(0, self.master.jsonUtil.config["latest_img_path"])
