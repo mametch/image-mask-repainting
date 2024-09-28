@@ -199,6 +199,46 @@ class ConfigFrame(customtkinter.CTkFrame):
             row=self.add_row_index(), column=0, padx=10, pady=(0, 10), sticky="ew", columnspan=3
         )
 
+        self.expand_mask_up_button = customtkinter.CTkButton(
+            master=self,
+            text="Up",
+            command=self.expand_mask_up_func,
+            font=self.fonts,
+        )
+        self.expand_mask_up_button.grid(row=self.add_row_index(), column=1, padx=10, pady=(0, 10), sticky="ew")
+
+        row_index = self.add_row_index()
+        self.expand_mask_left_button = customtkinter.CTkButton(
+            master=self,
+            text="Left",
+            command=self.expand_mask_left_func,
+            font=self.fonts,
+        )
+        self.expand_mask_left_button.grid(row=row_index, column=0, padx=10, pady=(0, 10), sticky="ew")
+
+        self.expand_mask_label = customtkinter.CTkLabel(
+            self,
+            text="Expand mask",
+            font=(FONT_TYPE, 13),
+        )
+        self.expand_mask_label.grid(row=row_index, column=1, padx=10, pady=(0, 0), sticky="ew", columnspan=3)
+
+        self.expand_mask_right_button = customtkinter.CTkButton(
+            master=self,
+            text="Right",
+            command=self.expand_mask_right_func,
+            font=self.fonts,
+        )
+        self.expand_mask_right_button.grid(row=row_index, column=2, padx=10, pady=(0, 10), sticky="ew")
+
+        self.expand_mask_down_button = customtkinter.CTkButton(
+            master=self,
+            text="Down",
+            command=self.expand_mask_down_func,
+            font=self.fonts,
+        )
+        self.expand_mask_down_button.grid(row=self.add_row_index(), column=1, padx=10, pady=(0, 10), sticky="ew")
+
         self.blur_kernel_size_label = customtkinter.CTkLabel(
             self,
             text=f"Blur kernel size {self.master.peeler.blur_kernel_size}",
@@ -341,6 +381,18 @@ class ConfigFrame(customtkinter.CTkFrame):
         if old_label != new_label:
             self.ed_strength_label.configure(text=new_label)
             self.master.peeler.ed_strength = value
+
+    def expand_mask_up_func(self):
+        self.master.peeler.expand_mask("up")
+
+    def expand_mask_down_func(self):
+        self.master.peeler.expand_mask("down")
+
+    def expand_mask_left_func(self):
+        self.master.peeler.expand_mask("left")
+
+    def expand_mask_right_func(self):
+        self.master.peeler.expand_mask("right")
 
     def blur_kernel_size_slider_event(self, value):
         value = round(value)

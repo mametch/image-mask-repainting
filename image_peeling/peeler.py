@@ -3,7 +3,8 @@ import os
 import cv2
 import numpy as np
 
-from image_peeling.inference_sgm import InferenceSegm
+from image_peeling.inference_sam2 import SAM2
+# from image_peeling.inference_sgm import InferenceSegm
 
 
 class Peeler:
@@ -26,7 +27,7 @@ class Peeler:
 
         self.updatable = False
 
-        self.infer = InferenceSegm()
+        self.infer = SAM2()
 
     def load_img(self, img_path: str):
         self.img_path = img_path
@@ -34,7 +35,8 @@ class Peeler:
         self.img_org = cv2.imdecode(img_np, cv2.IMREAD_COLOR)
 
         img_org_rgb = cv2.cvtColor(self.img_org, cv2.COLOR_BGR2RGB)
-        self.mask = self.infer.inference(img_org_rgb)
+        h, w, _ = img_org_rgb.shape
+        self.mask = self.infer.inference(img_org_rgb, [[round(w / 2), round(h / 2)]])
 
         self.paint_mask = np.zeros(img_org_rgb.shape, np.uint8)
 
@@ -171,3 +173,15 @@ class Peeler:
         mask = self.mask * 255
         mask = cv2.GaussianBlur(mask, (self.blur_kernel_size, self.blur_kernel_size), 0)
         return mask / 255
+
+    def expand_mask(self, direction):
+        shifted_mask = np.zeros_like(self.mask)
+        if direction == "up":
+            shifted_mask[:-1, :] = self.mask[1:, :]
+        elif direction == "down":
+            shifted_mask[1:, :] = self.mask[:-1, :]
+        elif direction == "left":
+            shifted_mask[:, :-1] = self.mask[:, 1:]
+        elif direction == "right":
+            shifted_mask[:, 1:] = self.mask[:, :-1]
+        self.mask = np.maximum(self.mask, shifted_mask)
